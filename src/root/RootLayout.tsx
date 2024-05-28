@@ -3,7 +3,7 @@
 const RootLayout = () => {
   return (
     <div>
-      
+      bello
     </div>
   )
 }
