@@ -10,6 +10,10 @@ import { SignupSchema } from "@/lib/validation/index"
 
 import Loader from "@/components/shared/Loader"
 
+import {Link} from "react-router-dom"
+
+import { createUserAccount } from "@/lib/appwrite/api"
+
 const SignUpForm = () => {
 
     const isLoading:boolean=false;
@@ -26,10 +30,10 @@ const SignUpForm = () => {
       })
      
       // 2. Define a submit handler.
-      function onSubmit(values: z.infer<typeof SignupSchema>) {
-        // Do something with the form values.
+     async function onSubmit(values: z.infer<typeof SignupSchema>) {
+        const newUser = await createUserAccount(values)
         
-        console.log(values)
+        console.log(newUser)
       }
   return (
       
@@ -37,13 +41,13 @@ const SignUpForm = () => {
 
         <div className="sm:w-420 flex-center flex-col">
             <img src="/assets/images/logo.svg" alt="logo"/>
-            <h2 className="h3-bold md:h2:bold pt-5 sm:pt-10 text-white">
+            <h2 className="h3-bold md:h2:bold pt-5 sm:pt-8 text-white">
               Create a New Account </h2>
-            <p className="text-light-3 small-medium md:base-regular mt-2 ">To use Snapgram Enter your Details</p>
+            <p className="text-light-3 small-medium md:base-regular mt-2 ">To use Snapgram, please Enter your Details</p>
         
         
 
-      <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-5 w-full mt-4 ">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-5 w-full mt-3 ">
         <FormField
           control={form.control}
           name="name"
@@ -98,7 +102,12 @@ const SignUpForm = () => {
         />
         <Button type="submit" className="shad-button_primary" disabled={isLoading}>
         {isLoading ? <Loader/> : "Sign Up"}
-            </Button>
+        </Button>
+
+        <p className="text-small-regular text-light02 text-center mt-1">
+          Already Have an Account?
+          <Link to="/login" className="text-light-3  mx-2 hover:underline font-semibold">Login</Link>
+        </p>
       </form>
     </div>
     </Form> 
